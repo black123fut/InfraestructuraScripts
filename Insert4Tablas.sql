@@ -1,11 +1,7 @@
-alter table Proveedor alter column ["idproveedor"] int;
-alter table Canton alter column ["idcanton"] int;
-alter table Provincia alter column ["idprovincia"] int;
-alter table Pais alter column ["idpais"] int;
-GO
+USE Bodega;
 
 CREATE PROCEDURE dbo.InsertarClienteEmpBodega
-		@Cedula VARCHAR(50),
+		@Cedula INT,
 		@Nombre VARCHAR(50),
 		@Apellido VARCHAR(50),
 		@Telefono VARCHAR(50),
@@ -20,7 +16,7 @@ BEGIN
 	SET NOCOUNT ON
 	BEGIN TRAN
 		BEGIN TRY
-			INSERT INTO Usuario
+			INSERT INTO Usuario 
 			VALUES
 			(@Cedula, @Nombre, @Apellido, GETDATE(), @Telefono, @Email, @DetalleDireccion, @FechaNacimiento, (abs(checksum(NewId()) % 82)) + 1);
 
@@ -49,7 +45,7 @@ GO
 
 
 EXEC dbo.InsertarClienteEmpBodega
-			@Cedula = '323245332',
+			@Cedula = 323245332,
 			@Nombre = 'Jorge',
 			@Apellido = 'Piedra',
 			@Telefono = '24536575',

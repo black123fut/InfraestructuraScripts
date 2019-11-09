@@ -50,7 +50,6 @@ BEGIN
 END;
 GO
 
-
 CREATE PROCEDURE dbo.CambiarTabla
 AS
 BEGIN

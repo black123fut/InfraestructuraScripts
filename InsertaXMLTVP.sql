@@ -1,3 +1,5 @@
+USE Bodega;
+
 -- <?xml version="1.0" standalone="yes"?>
 -- <Proveedor>
 -- <nombre>TuttosSA</nombre>
@@ -7,13 +9,14 @@
 -- <idcanton>5Tva</idcanton>
 -- </Proveedor>
 
-CREATE PROCEDURE InsertarRegistroXML
+CREATE PROCEDURE dbo.InsertarRegistroXML
 			@Info XML
 AS
 BEGIN
 SET NOCOUNT ON;
-INSERT INTO Proveedor(["nombre"], ["telefono"], ["cedulajuridica"], ["detalledireccion"], ["idcanton"])
+INSERT INTO Proveedor(["idproveedor"], ["nombre"], ["telefono"], ["cedulajuridica"], ["detalledireccion"], ["idcanton"])
 	SELECT
+	6,
 		prove.value('(nombre)[1]', 'VARCHAR(50)') as ["nombre"],
 		prove.value('(telefono)[1]', 'VARCHAR(50)') as ["telefono"],
 		prove.value('(juridica)[1]', 'VARCHAR(50)') as ["cedulajuridica"],
@@ -23,8 +26,8 @@ INSERT INTO Proveedor(["nombre"], ["telefono"], ["cedulajuridica"], ["detalledir
 END 
 GO
 
-EXEC InsertarRegistroXML
-		@Info = N'<?xml version="1.0" standalone="yes"?><Proveedor><nombre>TuttosSA</nombre><telefono>2555123</telefono><juridica>332232154</juridica><detalledireccion>A la par de la iglesia</detalledireccion><idcanton>5</idcanton></Proveedor>'
+EXEC dbo.InsertarRegistroXML
+		@Info = N'<?xml version="1.0" standalone="yes"?><Proveedor><nombre>TuttosSA</nombre><telefono>2555123</telefono><juridica>332232154</juridica><detalledireccion>A la par de la iglesia</detalledireccion><idcanton>5</idcanton></Proveedor>';
 
 
 CREATE TYPE PaisType AS TABLE(
@@ -36,8 +39,8 @@ CREATE PROCEDURE InsertarRegistroTVP
 		@Info PaisType READONLY
 	AS
 	SET NOCOUNT ON
-	INSERT INTO Pais(["nombre"])
-	SELECT Nombre FROM @Info;
+	INSERT INTO Pais(["idpais"], ["nombre"])
+	SELECT 3, Nombre FROM @Info;
 GO
 
 DECLARE @PaisTVP AS PaisType;

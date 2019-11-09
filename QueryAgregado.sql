@@ -1,7 +1,9 @@
-SELECT	MIN(A.["idarticulo"]) IdArticulo, 
+USE Bodega;
+
+SELECT	CONVERT(VARCHAR(50), MIN(A.["idarticulo"])) IdArticulo, 
 		MAX(F.["montototal"]) MontoTotal,
 		MAX(F.FechaCompra) FechaCompra
-FROM Venta V
+FROM dbo.Venta V
 INNER JOIN (
 			SELECT ["idarticulo"], P.["idproducto"], P.["nombre"], P.["categoriaactivo"], P.["precio"] 
 			FROM Articulo A
@@ -10,7 +12,7 @@ INNER JOIN (
 			A ON A.["idarticulo"] = V.["idarticulo"]
 INNER JOIN (
 			SELECT FA.["idfactura"], U.["nombre"], U.["apellido"], FA.["montototal"], FA.["metodopago"], 
-					CONVERT(datetime, REPLACE(FA.["fechacompra"], '"', '')) AS FechaCompra
+					REPLACE(FA.["fechacompra"], '"', '') AS FechaCompra
 			FROM Cliente C
 			INNER JOIN (
 						SELECT US.["cedula"], US.["nombre"], US.["apellido"] 
